@@ -1,0 +1,72 @@
+[{
+    "devices":[
+        {
+            "did":"VEw17oPI",
+            "actions" : [
+                {
+                    "aid" : "VEw17oPI.5.1",
+                    "in" : [
+                        {
+                        "piid" : 7,
+                        "values" : [
+                            [
+                            {
+                                "piid" : 1,
+                                "value" : "3"
+                            },
+                            {
+                                "piid" : 3,
+                                "value" : "c284f768a4004e587406b4c5ca538d9d"
+                            },
+                            {
+                                "piid" : 6,
+                                "value" : "https://prod-ocms-file.oss-cn-shenzhen.aliyuncs.com/xconsole/resource/manual/test/OTA_W1_1.3.0(22)_RPC.img"
+                            },
+                            {
+                                "piid" : 9,
+                                "value" : "mcu"
+                            },
+                            {
+                                "piid" : 10,
+                                "value" : 49903616
+                            },
+                            {
+                                "piid" : 4,
+                                "value" : "1f8beb96d2b3bec7020b0663c5df2f4533eaa9cc77438f37086e964bece62f08"
+                            },
+                            {
+                                "piid" : 5,
+                                "value" : "1.3.0(22)"
+                            }
+                            ]
+                        ]
+                        },
+                        {
+                        "piid" : 9,
+                        "values" : [
+                            "mcu"
+                        ]
+                        },
+                        {
+                        "piid" : 11,
+                        "values" : [
+                            "VEw17oPI"
+                        ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+},
+{
+    "devices":[
+        {
+            "did":"xw8h5HrZ",
+            "properties":[
+                "xw8h5HrZ.1.1"
+            ]
+        }
+    ]
+}
+]
