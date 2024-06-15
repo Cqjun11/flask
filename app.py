@@ -1,13 +1,8 @@
 from flask import Flask
+from app.routes.view import bp
 
 app = Flask(__name__)
-
-
-# @app.route('/')
-# def hello_world():  # put application's code here
-#     print(request.path)
-#     print(request.full_path)
-#     return request.args.__str__()
+app.register_blueprint(bp)
 
 
 if __name__ == '__main__':
