@@ -60,12 +60,3 @@ class Get(HTTPRequest):
 
 class Post(HTTPRequest):
     _method = 'post'
-
-
-if __name__ == '__main__':
-    params = payload = 'client_id=6c78ee67-1716-4c99-af3b-51bff44745b7&grant_type=password&scope=read%2Cwrite%2Cuserinfo&username=13380917781&password=dc483e80a7a0bd9ef71d8cf973673924&login_type=password&captcha_scene=login'
-    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-    r = Post('https://shenyu-test.lingdong.cn/passport/lingdong/oauth2/token', headers=headers, data=params)
-    response = r.send()
-    abc = json.loads(response.text)
-    print(abc,r._elapsed_time)

@@ -1,12 +1,13 @@
 import json
 from flask import request, jsonify
 from app.cores.base.modle.devices_modle import devices_list
+from app.cores.base.common.asser import
 from app.routes.view import bp
 
-@bp.route('/add_device', methods=['POST'])
+@bp.route('/api/add_device', methods=['POST'])
 def add_device():
     data = json.loads(request.data)
-    if data:
+    if not data:
         productId = data['productId']
         device_did = data['device_did']
         update_version = data['update_version']
@@ -17,7 +18,7 @@ def add_device():
     else:
         return jsonify(code=500, msg="数据不可为空")
 
+@bp.route('/api/get_devices', methods=['GET'])
+def get_devices_data():
+    date = json.loads(request.data)
 
-# @bp.route('/delete_device', methods=['GET'])
-# def delete_device():
-#     return 'abc'
