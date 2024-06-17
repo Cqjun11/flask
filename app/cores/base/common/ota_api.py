@@ -104,4 +104,9 @@ def read(did):
     version = handle_now_versionName(data)
     return version
 
-# read('xw8h5Hr')
+def check_deviceid(did):
+    check = read(did)
+    if not check:
+        return False
+
+

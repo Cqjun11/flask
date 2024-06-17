@@ -1,24 +1,39 @@
 import json
 from flask import request, jsonify
-from app.cores.base.modle.devices_modle import devices_list
-from app.cores.base.common.asser import
+from app.cores.base.modle.devices_modle import devices_list, devices_ota_data
+from app.cores.base.common.ota_api import check_deviceid
 from app.routes.view import bp
 
 @bp.route('/api/add_device', methods=['POST'])
 def add_device():
     data = json.loads(request.data)
-    if not data:
+    if data:
         productId = data['productId']
         device_did = data['device_did']
         update_version = data['update_version']
         demote_version = data['demote_version']
         count = data['count']
-        devices_list.add_device(productId, device_did, update_version, demote_version, count)
-        return jsonify(code=200, msg="添加成功")
+        if check_deviceid(device_did):
+            devices_list.add_device(productId, device_did, update_version, demote_version, count)
+            return jsonify(code=200, msg="添加成功")
+        else:
+            return jsonify(code=500, msg="did输入不符,请检查")
     else:
         return jsonify(code=500, msg="数据不可为空")
 
 @bp.route('/api/get_devices', methods=['GET'])
 def get_devices_data():
-    date = json.loads(request.data)
+    device_did = request.args.get('device_did')
+    if not device_did:
+        return ({"msg": "参数为空"}, 500)
+    device_data = devices_list.query_device(device_did)
+    if not device_data:
+        return ({"msg": "没有该数据"}, 500)
+    else:
+        for device in device_data:
+            product_id = device.productId
+            update_version = device.update_version
+            demote_version = device.demote_version
+            count = device.count
+            return ({'product_id': product_id, 'update_version': update_version, 'demote_version': demote_version, 'count': count},200)
 

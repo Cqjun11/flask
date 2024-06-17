@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/flask_test'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class devices_list(db.Model):
@@ -14,7 +15,6 @@ class devices_list(db.Model):
     demote_version = db.Column(db.String(120))
     count = db.Column(db.Integer, nullable=False)
     suc_num = db.Column(db.Integer)
-
     @classmethod
     def add_device(cls, productId, device_did, update_version, demote_version, count):
         if productId and device_did and update_version and demote_version and count:
@@ -48,7 +48,7 @@ class devices_list(db.Model):
     def query_device(cls, device_did):
         with app.app_context():
             query = devices_list.query.filter_by(device_did=device_did)
-        return query
+        return query.all()
     @classmethod
     def delete_device(cls, device_did):
         with app.app_context():
@@ -88,5 +88,4 @@ class devices_ota_data(db.Model):
         with app.app_context():
             query = devices_ota_data.query.filter_by(device_did=device_did, version=version)
         return query
-
 

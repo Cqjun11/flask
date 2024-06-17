@@ -1,32 +1,5 @@
-from typing import Iterable
-from urllib.parse import urlencode
-
 from jsonpath import jsonpath
 
-
-# def handle_headers(headers):
-#     '''
-#     :param headers:
-#     :return:
-#     '''
-#     ret = {}
-#     for header in headers:
-#         ret[header.name_] = header.value_
-#     print(ret)
-#     return ret
-
-
-
-# def handle_data_params(params):
-#     '''
-#     :param params:
-#     :return:
-#     '''
-#     ret = {}
-#     if isinstance(params, Iterable):
-#         for param in params:
-#
-#         return {params.name : params.value for param in params}
 
 def handle_url(protocol, domain, port, path):
     """预处理并返回url"""
@@ -72,3 +45,4 @@ def handle_now_versionName(data):
     else:
         print("输入版本号不符，请检查控制台版本号")
         return False
+
