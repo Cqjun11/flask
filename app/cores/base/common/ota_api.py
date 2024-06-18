@@ -15,7 +15,7 @@ def get_device_data(pid, version):
     headers = {'Cookie': cookie}
     res = Get(url=url, headers=headers).send()
     data = json.loads(res.text)
-    file_url, filesize, md5, version, sha256 = handle_version_and_path(data, version)
+    file_url, filesize, md5, sha256 = handle_version_and_path(data, version)
     return file_url, filesize, md5, version, sha256
 
 
@@ -108,5 +108,7 @@ def check_deviceid(did):
     check = read(did)
     if not check:
         return False
+    else:
+        return True
 
 

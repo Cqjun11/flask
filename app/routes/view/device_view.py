@@ -7,12 +7,12 @@ from app.routes.view import bp
 @bp.route('/api/add_device', methods=['POST'])
 def add_device():
     data = json.loads(request.data)
-    if data:
-        productId = data['productId']
-        device_did = data['device_did']
-        update_version = data['update_version']
-        demote_version = data['demote_version']
-        count = data['count']
+    productId = data['productId']
+    device_did = data['device_did']
+    update_version = data['update_version']
+    demote_version = data['demote_version']
+    count = data['count']
+    if productId and device_did and update_version and demote_version and count:
         if check_deviceid(device_did):
             devices_list.add_device(productId, device_did, update_version, demote_version, count)
             return jsonify(code=200, msg="添加成功")
@@ -37,3 +37,19 @@ def get_devices_data():
             count = device.count
             return ({'product_id': product_id, 'update_version': update_version, 'demote_version': demote_version, 'count': count},200)
 
+
+@bp.route('/api/add_device_data', methods=['POST'])
+def add_device_data():
+    device_data = json.loads(request.data)
+    device_id = device_data['device_did']
+    filesize = device_data['filesize']
+    versionName = device_data['versionName']
+    file_url = device_data['file_Url']
+    md5 = device_data['md5']
+    sha256 = device_data['sha256']
+    version = device_data['version']
+    if device_id and filesize and md5 and sha256 and versionName and file_url and version:
+        devices_ota_data.add_ota_data(device_id, filesize, versionName, file_url, md5, sha256, version)
+        return jsonify(code=200, msg="添加成功")
+    else:
+        return jsonify(code=500, msg="数据不可为空")

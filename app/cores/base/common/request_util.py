@@ -27,9 +27,9 @@ def handle_version_and_path(data, version):
         sha256 = ''
         try:
             sha256 = data_list[0]['e_sha256']
-            return file_url, file_size, md5, version, sha256
+            return file_url, file_size, md5, sha256
         except Exception as e:
-            return file_url, file_size, md5, version, sha256
+            return file_url, file_size, md5, sha256
     else:
         print("输入版本号不符，请检查控制台版本号")
         return False
