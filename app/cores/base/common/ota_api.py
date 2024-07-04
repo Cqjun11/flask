@@ -10,7 +10,7 @@ pro_port = 32573
 
 class Ota_Api:
     resourceName = None
-    domain = None
+    environment = None
 
     def get_token(self):
         url = handle_url('https', 'shenyu.lingdong.cn', '', '/passport/lingdong/oauth2/token')
@@ -40,9 +40,9 @@ class Ota_Api:
     def action(self, did, file_url, filesize, md5, version, sha256):
         path = '/api/v1/internal/invoke-actions'
         url = None
-        if self.domain == 'test':
+        if self.environment == 'test':
             url = handle_url('http', test_domain, test_port, path)
-        elif self.domain == 'prd':
+        elif self.environment == 'pro':
             url = handle_url('http', pro_domain, pro_port, path)
         json_data = json.dumps({"devices": [
             {
@@ -110,7 +110,11 @@ class Ota_Api:
 
     def read(self, did):
         path = '/api/v1/internal/get-properties'
-        url = handle_url('http', pro_domain, pro_port, path)
+        url = None
+        if self.environment == 'test':
+            url = handle_url('http', test_domain, test_port, path)
+        elif self.environment == 'pro':
+            url = handle_url('http', pro_domain, pro_port, path)
         json_data = json.dumps({"devices": [
             {
                 "did": did,
@@ -126,9 +130,14 @@ class Ota_Api:
         return version
 
 
-def check_deviceid(did):
+def check_deviceid(did, environment):
+    Ota_Api.environment = environment
     check = Ota_Api().read(did)
     if not check:
         return False
     else:
         return True
+
+if __name__ == '__main__':
+    Ota_Api.environment = "pro"
+    Ota_Api().read('xw8h5HrZ')

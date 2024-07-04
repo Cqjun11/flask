@@ -11,17 +11,19 @@ class devices_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     productId = db.Column(db.Integer, nullable=False)
     device_did = db.Column(db.String(120), nullable=False)
+    environment = db.Column(db.String(120), nullable=False)
     resourceName = db.Column(db.String(120), nullable=False)
-    update_version = db.Column(db.String(120))
-    demote_version = db.Column(db.String(120))
+    update_version = db.Column(db.String(120), nullable=False)
+    demote_version = db.Column(db.String(120), nullable=False)
     count = db.Column(db.Integer, nullable=False)
     suc_num = db.Column(db.Integer)
 
     @classmethod
-    def add_device(cls, productId, device_did, resourceName, update_version, demote_version, count):
-        if productId and device_did and resourceName and update_version and demote_version and count:
+    def add_device(cls, productId, device_did, resourceName, environment, update_version, demote_version, count):
+        if productId and device_did and resourceName and environment and update_version and demote_version and count:
             new_device = devices_list(productId=productId, device_did=device_did, update_version=update_version,
-                                      resourceName=resourceName, demote_version=demote_version, count=count)
+                                      resourceName=resourceName, environment=environment,
+                                      demote_version=demote_version, count=count)
             with app.app_context():
                 try:
                     db.session.add(new_device)
@@ -76,8 +78,7 @@ class devices_ota_data(db.Model):
     def add_ota_data(cls, device_did, filesize, versionName, file_url, md5, sha256, version):
         with app.app_context():
             try:
-                if device_did and filesize and versionName and file_url and version and sha256 and md5:
-                    print(device_did, filesize, versionName, file_url, md5, sha256, version)
+                if device_did and filesize and versionName and file_url and md5:
                     device_data = devices_ota_data(device_did=device_did, filesize=filesize, versionName=versionName, file_url=file_url, md5=md5, sha256=sha256, version=version)
                     db.session.add(device_data)
                     db.session.commit()
@@ -92,9 +93,9 @@ class devices_ota_data(db.Model):
         return query
 
     @classmethod
-    def query_data_by_device_did(cls, device_did, version):
+    def query_data_by_device_did(cls, device_did):
         with app.app_context():
-            query = devices_ota_data.query.filter_by(device_did=device_did, version=version)
+            query = devices_ota_data.query.filter_by(device_did=device_did)
         return query
 
 with app.app_context():
