@@ -9,12 +9,13 @@ def add_device():
     data = json.loads(request.data)
     productId = data['productId']
     device_did = data['device_did']
+    resourceName = data['resourceName']
     update_version = data['update_version']
     demote_version = data['demote_version']
     count = data['count']
-    if productId and device_did and update_version and demote_version and count:
+    if productId and device_did and resourceName and update_version and demote_version and count:
         if check_deviceid(device_did):
-            devices_list.add_device(productId, device_did, update_version, demote_version, count)
+            devices_list.add_device(productId, device_did, resourceName, update_version, demote_version, count)
             return jsonify(code=200, msg="添加成功")
         else:
             return jsonify(code=500, msg="did输入不符,请检查")
@@ -25,17 +26,20 @@ def add_device():
 def get_devices_data():
     device_did = request.args.get('device_did')
     if not device_did:
-        return ({"msg": "参数为空"}, 500)
+        return {"msg": "参数为空"}, 500
     device_data = devices_list.query_device(device_did)
     if not device_data:
-        return ({"msg": "没有该数据"}, 500)
+        return {"msg": "没有该数据"}, 500
     else:
         for device in device_data:
             product_id = device.productId
+            resourceName = device.resourceName
             update_version = device.update_version
             demote_version = device.demote_version
             count = device.count
-            return ({'product_id': product_id, 'update_version': update_version, 'demote_version': demote_version, 'count': count},200)
+            return ({'product_id': product_id, 'resourceName':resourceName,
+                     'update_version': update_version, 'demote_version': demote_version,
+                     'count': count}, 200)
 
 
 @bp.route('/api/add_device_data', methods=['POST'])

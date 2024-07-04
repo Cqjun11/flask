@@ -11,15 +11,17 @@ class devices_list(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     productId = db.Column(db.Integer, nullable=False)
     device_did = db.Column(db.String(120), nullable=False)
+    resourceName = db.Column(db.String(120), nullable=False)
     update_version = db.Column(db.String(120))
     demote_version = db.Column(db.String(120))
     count = db.Column(db.Integer, nullable=False)
     suc_num = db.Column(db.Integer)
 
     @classmethod
-    def add_device(cls, productId, device_did, update_version, demote_version, count):
-        if productId and device_did and update_version and demote_version and count:
-            new_device = devices_list(productId=productId, device_did=device_did, update_version=update_version, demote_version=demote_version, count=count)
+    def add_device(cls, productId, device_did, resourceName, update_version, demote_version, count):
+        if productId and device_did and resourceName and update_version and demote_version and count:
+            new_device = devices_list(productId=productId, device_did=device_did, update_version=update_version,
+                                      resourceName=resourceName, demote_version=demote_version, count=count)
             with app.app_context():
                 try:
                     db.session.add(new_device)
@@ -95,5 +97,5 @@ class devices_ota_data(db.Model):
             query = devices_ota_data.query.filter_by(device_did=device_did, version=version)
         return query
 
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
