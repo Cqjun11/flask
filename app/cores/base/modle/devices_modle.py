@@ -93,9 +93,9 @@ class devices_ota_data(db.Model):
         return query
 
     @classmethod
-    def query_data_by_device_did(cls, device_did):
+    def query_data_by_device_did(cls, device_did, version):
         with app.app_context():
-            query = devices_ota_data.query.filter_by(device_did=device_did)
+            query = devices_ota_data.query.filter_by(device_did=device_did, version=version).all()
         return query
 
 with app.app_context():

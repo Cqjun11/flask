@@ -63,9 +63,10 @@ def add_device_data():
 @bp.route('/api/get_device_data', methods=['GET'])
 def get_device_data():
     device_did = request.args.get('device_did')
-    if not device_did:
+    version = request.args.get('version')
+    if not device_did and not version:
         return {"msg": "参数为空"}, 500
-    device_ota_data = devices_ota_data.query_data_by_device_did(device_did)
+    device_ota_data = devices_ota_data.query_data_by_device_did(device_did, version)
     if not device_ota_data:
         return {"msg": "没有该数据"}, 500
     else:

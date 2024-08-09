@@ -48,16 +48,16 @@ class hand_ota(Ota_Api):
         })
         update_data_res = Post(add_data_url, data=update_data).send()
         demote_data_res = Post(add_data_url, data=demote_data).send()
+        print(update_data_res)
 
     def start_ota(self, version):
         url = handle_url('http', '127.0.0.1', '5000',
                         '/api/get_device_data?device_did={}'.format(self.device_id))
         res = Get(url).send()
         data = json.loads(res.text)
-        print(data['data'][1]['version'])
-        # if version:
-        #     update_file_url, update_filesize, update_md5, update_version, update_sha256
+        if version:
+            pass
 
 
 if __name__ == '__main__':
-    hand_ota('xw8h5HrZ').start_ota(1)
+    hand_ota('xw8h5HrZ').get_devices_data()
